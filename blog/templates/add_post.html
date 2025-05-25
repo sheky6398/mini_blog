@@ -1,0 +1,56 @@
+{% extends 'core.html' %}
+{% load static %}
+{% block coretitle %}
+<title>Add Post</title>
+{% endblock coretitle %}
+{% block corecss %}
+    {{block.super}}
+    <link href="{% static 'css/index.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet" />
+
+{% endblock corecss %}
+
+{% block corebodycontent %}
+{% include "navbar.html" %}
+
+<div class="container">
+    <h1 class="d-flex justify-content-center mt-5">ADD POST</h1>
+
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col--10">
+            <div class="my-5">
+                <form method="POST" novalidate >
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="mb-4">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-danger small">
+                                    {{ field.errors|striptags }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <div class="d-flex justify-content-start">
+                        <button  type="submit" class="btn btn-primary btn-block">ADD</button>
+                        <a class="btn btn-secondary ms-4" href={%url "add_post" %} role="button">Cancel</a>
+                    </div> 
+                </form>
+                {% if messages %}
+                {% for message in messages %}
+                    <div {% if message.tags %} class="alert alert-{{ message.tags }} mt-3" {% endif %}>{{ message }}</div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "footer.html" %}
+
+{% endblock corebodycontent %}
+
+{% block corejs %}
+{{block.super}}
+{% endblock corejs %}
