@@ -12,35 +12,60 @@
 {% block corebodycontent %}
 {% include "navbar.html" %}
 <div class="container">
-    <h1 class="d-flex justify-content-center mt-5">ADD POST</h1>
+    <h1 class="d-flex justify-content-center mt-5">DASHBOARD</h1>
 
-    <div class="row gx-4 gx-lg-5 justify-content-center">
-        <div class="col--10">
-            <div class="my-5">
-                <form method="POST" novalidate >
-                    {% csrf_token %}
+    <div class="row justify-content-center">
+        <div class="col-3">
 
-                    {% for field in form %}
-                    <div class="form-floating mb-4">
-                        {{ field }}
-                        {{ field.label_tag }}
-                        {% if field.errors %}
-                            <div class="text-danger small">
-                                {{ field.errors|striptags }}
-                            </div>
-                        {% endif %}
-                    </div>
-                    {% endfor %}
-                    <div class="d-flex justify-content-center">
-                        <button  type="submit" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body w-100">Register</button>
-                    </div> 
-                </form>
-                {% if messages %}
-                {% for message in messages %}
-                    <div {% if message.tags %} class="alert alert-{{ message.tags }} mt-3" {% endif %}>{{ message }}</div>
-                {% endfor %}
-                {% endif %}
-            </div>
+        </div>
+        <div class="col-12">
+            <a class="btn btn-primary mt-5" href={% url "add_post" %} role="button">ADD POST</a>
+
+                <table class="table table-hover table-bordered mt-5">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for blog in blogs %}
+                            <tr>
+                                <th scope="row">{{blog.id}}</th>
+                                <td>{{blog.title}}</td>
+                                <td>{{blog.description}}</td>
+                                <td>
+                                    <a class="btn btn-warning mt-2 fw-normal" href={% url "add_post" blog.id %} role="button">EDIT</a>
+                                    {% if request.user.is_superuser %}
+                                    <button type="button" class="btn btn-danger mt-2 mb-2 fw-normal" data-bs-toggle="modal" data-bs-target="#deleteBlogPostModal{{ blog.id }}">
+                                        DELETE
+                                    </button>
+
+                                    <div class="modal fade" id="deleteBlogPostModal{{ blog.id }}" tabindex="-1" aria-labelledby="deleteBlogPostModal" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="deleteBlogPostModal{{ blog.id }}">Confirm Deletion</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                            Are You Sure you want to delete the Post
+                                            </div>
+                                            <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <a class="btn btn-danger mt-2 fw-normal" href={% url "delete_post" blog.id %} role="button">DELETE</a>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
         </div>
     </div>
 </div>

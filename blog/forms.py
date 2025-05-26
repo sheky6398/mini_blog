@@ -40,9 +40,14 @@ class AddBlogPostForm(forms.ModelForm):
     
     class Meta:
         model = Blog
-        fields = ['title', 'description']
+        fields = ['title', 'sub_title','description']
 
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': 'Title..', 'class': 'form-control'}) ,
+            'sub_title': forms.TextInput(attrs={'placeholder': 'Sub Title..', 'class': 'form-control'}) ,
             'description': forms.Textarea(attrs={'placeholder': 'Description', 'class': 'form-control'}) ,
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['sub_title'].required = False
