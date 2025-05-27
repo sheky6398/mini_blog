@@ -18,6 +18,10 @@ class AuthorSignUpForm(UserCreationForm):
             'email': forms.EmailInput(attrs={'class': 'form-control form-control-lg', 'placeholder': 'Email',}),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['email'].required = True
+
 
 class AuthorLoginForm(AuthenticationForm):
     password = forms.CharField(

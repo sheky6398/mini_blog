@@ -7,10 +7,13 @@ from django.contrib.auth.models import User
 class Blog(models.Model):
 
     title = models.CharField(max_length=200)
-    sub_title = models.CharField(max_length=300, null=True)
+    sub_title = models.CharField(max_length=300, blank=True, null=True)
     description = models.TextField()
     post_updated_on = models.DateField(default=timezone.now)
-    updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         ordering = ['id']

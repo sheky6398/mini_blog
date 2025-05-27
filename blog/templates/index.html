@@ -31,10 +31,14 @@
                 <div class="post-preview">
                     <a href={% url "post" post.id %}>
                         <h2 class="post-title">{{post.title}}</h2>
+                        {% if post.sub_title %}
+                        <h3 class="post-subtitle">{{post.sub_title}}</h3>
+                        {% endif %}
+
                     </a>
                     <p class="post-meta">
                         Posted by
-                        <a href="#!" class="text-capitalize">{{post.updated_by}}</a>
+                        <a href="#!" class="text-capitalize">{{post.author}}</a>
                         on {{post.post_updated_on}}
                     </p>
                 </div>
