@@ -98,9 +98,7 @@ def show_post(request, id):
 
 
 def delete_post(request, id=None):
-
     blog_instance = None
-
     if not request.user.is_authenticated:
         return redirect('/')
     if id:
